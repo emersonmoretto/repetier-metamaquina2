@@ -242,7 +242,7 @@ Values for starts:
 The precise values may differ for different nozzle/resistor combination. 
  Overridden if EEPROM activated.
 */
-#define EXT0_PID_INTEGRAL_DRIVE_MAX 130
+#define EXT0_PID_INTEGRAL_DRIVE_MAX 140
 /** \brief lower value for integral part
 
 The I state should converge to the exact heater output needed for the target temperature.
@@ -411,7 +411,7 @@ If your EXT0_PID_MAX is low, you should prefer the second method.
 
 Uncomment define to use force the temperature into the range for given watchperiod. 
 */
-//#define TEMP_HYSTERESIS 5
+#define TEMP_HYSTERESIS 4
 
 /** Userdefined thermistor table
 
