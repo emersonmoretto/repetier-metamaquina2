@@ -396,7 +396,7 @@ need to increase this value. For one 6.8 Ohm heater 10 is ok. With two 6.8 Ohm h
 #define PID_CONTROL_RANGE 15
 
 /** Skip wait, if the extruder temperature is already within x degrees. Only fixed numbers, 0 = off */
-#define SKIP_M109_IF_WITHIN 2
+#define SKIP_M109_IF_WITHIN 5
 
 /** \brief Set PID scaling 
 
@@ -411,7 +411,7 @@ If your EXT0_PID_MAX is low, you should prefer the second method.
 
 Uncomment define to use force the temperature into the range for given watchperiod. 
 */
-#define TEMP_HYSTERESIS 4
+#define TEMP_HYSTERESIS 6
 
 /** Userdefined thermistor table
 
@@ -810,7 +810,7 @@ on this endstop.
 
 // RAMBo board: Rs = 0.1 ohm
 // Values 0-255 (RAMBo 135 = ~0.75A, 185 = ~1A, 222 = ~1.2A)
-#define MOTOR_CURRENT {100,90,135,135,90}
+#define MOTOR_CURRENT {120,120,135,135,90} //x motor, y motor, z motor, extruder 1, extruder 2
 
 // 3D Master board
 //#define MOTOR_CURRENT {35713,35713,35713,35713,35713} // Values 0-65535 (3D Master 35713 = ~1A)
