@@ -39,28 +39,14 @@ has no effect. Parameters overriden by EEPROM settings are calibartion values, e
 values except thermistor tables and some other parameter likely to change during usage
 like advance steps or ops mode.
 To override EEPROM settings with config settings, set EEPROM_MODE 0
-
 */
-
 
 // BASIC SETTINGS: select your board type, thermistor type, axis scaling, and endstop configuration
 
 //// The following define selects which electronics board you have. Please choose the one that matches your setup
 // MEGA/RAMPS up to 1.2       = 3
 // RAMPS 1.3/RAMPS 1.4        = 33
-// Gen6                       = 5 
-// Gen6 deluxe                = 51
-// Sanguinololu up to 1.1     = 6
-// Sanguinololu 1.2 and above = 62
-// Gen7 1.1 till 1.3.x        = 7
-// Gen7 1.4.1 and later       = 71
-// Teensylu (at90usb)         = 8 // requires Teensyduino
-// Printrboard (at90usb)      = 9 // requires Teensyduino
-// Foltyn 3D Master           = 12
-// MegaTronics                = 70
-// RUMBA                      = 80  // Get it from reprapdiscount
 // Rambo                      = 301
-// Arduino Due                = 401 // This is only experimental
 
 #define MOTHERBOARD 301
 #include "pins.h"
@@ -88,51 +74,8 @@ the wrong direction change INVERT_X_DIR or INVERT_Y_DIR.
 /** Drive settings for the Delta printers
 */
 #if DRIVE_SYSTEM==3
-/** \brief Delta drive type: 0 - belts and pulleys, 1 - filament drive
-*/
-#define DELTA_DRIVE_TYPE 0
 
-#if DELTA_DRIVE_TYPE == 0
-/** \brief Pitch in mm of drive belt. GT2 = 2mm
-*/
-#define BELT_PITCH 2
-
-/** \brief Number of teeth on X, Y and Z tower pulleys
-*/
-#define PULLEY_TEETH 20
-#define PULLEY_CIRCUMFERENCE (BELT_PITCH * PULLEY_TEETH)
-
-#elif DELTA_DRIVE_TYPE == 1
-
-/** \brief Filament pulley diameter in milimeters
-*/
-#define PULLEY_DIAMETER 10
-
-#define PULLEY_CIRCUMFERENCE (PULLEY_DIAMETER * 3.1415927)
-
-#endif
-
-
-/** \brief Steps per rotation of stepper motor
-*/
-#define STEPS_PER_ROTATION 400
-
-/** \brief Micro stepping rate of X, Y and Y tower stepper drivers
-*/
-#define MICRO_STEPS 16
-
-/** \brief Number of delta moves in each line. Moves that exceed this figure will be split into multiple lines.
-Increasing this figure can use a lot of memory since 7 bytes * size of line buffer * MAX_SELTA_SEGMENTS_PER_LINE
-will be allocated for the delta buffer. With defaults 7 * 16 * 30 = 3360 bytes. This leaves ~1K free RAM on an Arduino
-Mega.
-*/
-#define MAX_DELTA_SEGMENTS_PER_LINE 30
-
-// Calculations
-#define AXIS_STEPS_PER_MM ((float)(MICRO_STEPS * STEPS_PER_ROTATION) / PULLEY_CIRCUMFERENCE)
-#define XAXIS_STEPS_PER_MM AXIS_STEPS_PER_MM
-#define YAXIS_STEPS_PER_MM AXIS_STEPS_PER_MM
-#define ZAXIS_STEPS_PER_MM AXIS_STEPS_PER_MM
+// I'm not a delta
 
 #else
 
@@ -286,104 +229,10 @@ The codes are only executed for multiple extruder when changing the extruder. */
 /** PWM speed for the cooler fan. 0=off 255=full speed */
 #define EXT0_EXTRUDER_COOLER_SPEED 255
 
-
+/*
 // =========================== Configuration for second extruder ========================
-#define EXT1_X_OFFSET 0
-#define EXT1_Y_OFFSET 0
-// for skeinforge 40 and later, steps to pull the plasic 1 mm inside the extruder, not out.  Overridden if EEPROM activated.
-#define EXT1_STEPS_PER_MM 373
-// What type of sensor is used?
-// 1 is 100k thermistor (Epcos B57560G0107F000 - RepRap-Fab.org and many other)
-// 2 is 200k thermistor
-// 3 is mendel-parts thermistor (EPCOS G550)
-// 4 is 10k thermistor
-// 5 is userdefined thermistor table 0
-// 6 is userdefined thermistor table 1
-// 7 is userdefined thermistor table 2
-// 50 is userdefined thermistor table 0 for PTC thermistors
-// 51 is userdefined thermistor table 0 for PTC thermistors
-// 52 is userdefined thermistor table 0 for PTC thermistors
-// 97 Generic thermistor table 1
-// 98 Generic thermistor table 2
-// 99 Generic thermistor table 3
-// 100 is AD595
-// 101 is MAX6675
-#define EXT1_TEMPSENSOR_TYPE 1
-// Analog input pin for reading temperatures or pin enabling SS for MAX6675
-#define EXT1_TEMPSENSOR_PIN TEMP_1_PIN 
-// WHich pin enables the heater
-#define EXT1_HEATER_PIN HEATER_1_PIN 
-#define EXT1_STEP_PIN E1_STEP_PIN
-#define EXT1_DIR_PIN E1_DIR_PIN
-// set to 0/1 for normal / inverse direction
-#define EXT1_INVERSE true
-#define EXT1_ENABLE_PIN E1_ENABLE_PIN
-// For Inverting Stepper Enable Pins (Active Low) use 0, Non Inverting (Active High) use 1
-#define EXT1_ENABLE_ON false
-// The following speed settings are for skeinforge 40+ where e is the
-// length of filament pulled inside the heater. For repsnap or older
-// skeinforge use eiher values.
-//  Overridden if EEPROM activated.
-#define EXT1_MAX_FEEDRATE 50
-// Feedrate from halted extruder in mm/s
-//  Overridden if EEPROM activated.
-#define EXT1_MAX_START_FEEDRATE 12
-// Acceleration in mm/s^2
-//  Overridden if EEPROM activated.
-#define EXT1_MAX_ACCELERATION 10000
-/** Type of heat manager for this extruder. 
-- 0 = Simply switch on/off if temperature is reached. Works always.
-- 1 = PID Temperature control. Is better but needs good PID values. Defaults are a good start for most extruder.
- Overridden if EEPROM activated.
+No second extruder!
 */
-#define EXT1_HEAT_MANAGER 1
-/** Wait x seconds, after reaching target temperature. Only used for M109.  Overridden if EEPROM activated. */
-#define EXT1_WATCHPERIOD 1
-
-/** \brief The maximum value, I-gain can contribute to the output. 
-
-A good value is slightly higher then the output needed for your temperature.
-Values for starts:
-130 => PLA for temperatures from 170-180°C
-180 => ABS for temperatures around 240°C
-
-The precise values may differ for different nozzle/resistor combination. 
- Overridden if EEPROM activated.
-*/
-#define EXT1_PID_INTEGRAL_DRIVE_MAX 130
-/** \brief lower value for integral part
-
-The I state should converge to the exact heater output needed for the target temperature.
-To prevent a long deviation from the target zone, this value limits the lower value.
-A good start is 30 lower then the optimal value. You need to leave room for cooling.
- Overridden if EEPROM activated.
-*/
-#define EXT1_PID_INTEGRAL_DRIVE_MIN 60
-/** P-gain.  Overridden if EEPROM activated. */
-#define EXT1_PID_P   24
-/** I-gain.  Overridden if EEPROM activated.
-*/
-#define EXT1_PID_I   0.88
-/** Dgain.  Overridden if EEPROM activated.*/
-#define EXT1_PID_D 200
-// maximum time the heater is can be switched on. Max = 255.  Overridden if EEPROM activated.
-#define EXT1_PID_MAX 255
-/** \brief Faktor for the advance algorithm. 0 disables the algorithm.  Overridden if EEPROM activated.
-K is the factor for the quadratic term, which is normally disabled in newer versions. If you want to use
-the quadratic factor make sure ENABLE_QUADRATIC_ADVANCE is defined.
-L is the linear factor and seems to be working better then the quadratic dependency.
-*/
-#define EXT1_ADVANCE_K 0.0f
-#define EXT1_ADVANCE_L 0.0f
-
-#define EXT1_WAIT_RETRACT_TEMP 	150
-#define EXT1_WAIT_RETRACT_UNITS	40
-#define EXT1_SELECT_COMMANDS "M120 S5 P15\nM117 Extruder 2"
-#define EXT1_DESELECT_COMMANDS ""
-/** The extruder cooler is a fan to cool the extruder when it is heating. If you turn the etxruder on, the fan goes on. */
-#define EXT1_EXTRUDER_COOLER_PIN -1
-/** PWM speed for the cooler fan. 0=off 255=full speed */
-#define EXT1_EXTRUDER_COOLER_SPEED 255
 
 /** If enabled you can select the distance your filament gets retracted during a
 M140 command, after a given temperature is reached. */
@@ -393,7 +242,7 @@ M140 command, after a given temperature is reached. */
 If you get much overshoot at the first temperature set, because the heater is going full power to long, you
 need to increase this value. For one 6.8 Ohm heater 10 is ok. With two 6.8 Ohm heater use 15.
 */
-#define PID_CONTROL_RANGE 15
+#define PID_CONTROL_RANGE 13
 
 /** Skip wait, if the extruder temperature is already within x degrees. Only fixed numbers, 0 = off */
 #define SKIP_M109_IF_WITHIN 5
@@ -411,7 +260,7 @@ If your EXT0_PID_MAX is low, you should prefer the second method.
 
 Uncomment define to use force the temperature into the range for given watchperiod. 
 */
-#define TEMP_HYSTERESIS 6
+#define TEMP_HYSTERESIS 5
 
 /** Userdefined thermistor table
 
@@ -618,7 +467,7 @@ Value is used for all generic tables created. */
 
 #define HEATED_BED_MAX_TEMP 120
 /** Skip M190 wait, if heated bed is already within x degrees. Fixed numbers only, 0 = off. */
-#define SKIP_M190_IF_WITHIN 3
+#define SKIP_M190_IF_WITHIN 4
 
 // Select type of your heated bed. It's the same as for EXT0_TEMPSENSOR_TYPE
 // set to 0 if you don't have a heated bed
@@ -810,50 +659,11 @@ on this endstop.
 
 // RAMBo board: Rs = 0.1 ohm
 // Values 0-255 (RAMBo 135 = ~0.75A, 185 = ~1A, 222 = ~1.2A)
-#define MOTOR_CURRENT {120,120,135,135,90} //x motor, y motor, z motor, extruder 1, extruder 2
-
-// 3D Master board
-//#define MOTOR_CURRENT {35713,35713,35713,35713,35713} // Values 0-65535 (3D Master 35713 = ~1A)
+#define MOTOR_CURRENT {110,110,135,135,90} // {X, Y, Z, E1, E2}
 
 
 #define STEP_COUNTER
 
-// Delta settings
-#if DRIVE_SYSTEM==3
-/** \brief Delta rod length
-*/
-#define DELTA_DIAGONAL_ROD 250.0 // mm
-
-/** \brief Number of segments to generate for delta conversions per second of move
-*/
-#define DELTA_SEGMENTS_PER_SECOND_PRINT 200 // Move accurate setting for print moves
-#define DELTA_SEGMENTS_PER_SECOND_MOVE 70 // Less accurate setting for other moves
-
-/** \brief Horizontal offset of the universal joints on the end effector (moving platform).
-*/
-#define END_EFFECTOR_HORIZONTAL_OFFSET 33
-
-/** \brief Horizontal offset of the universal joints on the vertical carriages.
-*/
-#define CARRIAGE_HORIZONTAL_OFFSET 18
-
-/** \brief Printer radius in mm, measured from the center of the print area to the vertical smooth rod.
-*/
-#define PRINTER_RADIUS 175
-
-/**  \brief Horizontal distance bridged by the diagonal push rod when the end effector is in the center. It is pretty close to 50% of the push rod length (250 mm).
-*/
-#define DELTA_RADIUS (PRINTER_RADIUS-END_EFFECTOR_HORIZONTAL_OFFSET-CARRIAGE_HORIZONTAL_OFFSET)
-
-/** \brief Enable counter to count steps for Z max calculations
-*/
-#define STEP_COUNTER
-
-/** \brief Experimental calibration utility for delta printers
-*/
-#define SOFTWARE_LEVELING
-
-#endif
 
 /** After x seconds of inactivity, the stepper motors are disabled.
     Set to 0 to leave them enabled.
